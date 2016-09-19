@@ -18,11 +18,36 @@
   +----------------------------------------------------------------------+
  */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "sudoku.h"
 
+void print_help() {
+    printf(
+        "\n"
+        "sudoku - as a learning exercise.\n"
+        "   g generate: generate and print a full 9*9 grid\n"
+    );
+}
+
 int main (int argc, char *argv[]) {
+    sudoku_t *sudoku;
+
+    sudoku = sudoku_ctor();
+    if (argc >= 1) {
+        printf(argv[1]);
+        if (strcmp(argv[1], "g") == 0 || strcmp(argv[1], "generate") == 0) {
+            sudoku_generate(sudoku);
+            sudoku_print(sudoku);
+        } else {
+            print_help();
+        }
+    } else {
+        print_help();
+    }
+    sudoku_dtor(sudoku);
+
     return EXIT_SUCCESS;
 }
 

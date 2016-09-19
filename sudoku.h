@@ -23,13 +23,17 @@
 
 #include <stdlib.h>
 
+#define SUDOKU_GRID_N 9
+
 typedef struct _sudoku_t {
-    int grid[9*9];
+    size_t length;
+    int *grid;
 } sudoku_t;
 
 sudoku_t *sudoku_ctor();
 int sudoku_dtor(sudoku_t *sudoku);
-int sudoku_fill(sudoku_t *sudoku);
+int sudoku_generate(sudoku_t *sudoku);
+void sudoku_print(sudoku_t *sudoku);
 
 
 #endif /* SUDOKU_SUDOKU_H */
