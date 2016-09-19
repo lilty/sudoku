@@ -28,12 +28,17 @@
 typedef struct _sudoku_t {
     size_t length;
     int *grid;
+    int *puzzle;
 } sudoku_t;
 
 sudoku_t *sudoku_ctor();
 int sudoku_dtor(sudoku_t *sudoku);
+void sudoku_clear(sudoku_t *sudoku);
 int sudoku_generate(sudoku_t *sudoku);
-void sudoku_print(sudoku_t *sudoku);
+int sudoku_puzzle(sudoku_t *sudoku, int empty);
+int sudoku_solve_backtracking(sudoku_t *sudoku);
+void sudoku_print_grid(sudoku_t *sudoku);
+void sudoku_print_puzzle(sudoku_t *sudoku);
 
 
 #endif /* SUDOKU_SUDOKU_H */
