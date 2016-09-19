@@ -36,10 +36,6 @@ int main (int argc, char *argv[]) {
     int empty;
     sudoku_t *sudoku;
 
-    for (int i = 1; i < argc; i++) {
-        printf("argument %d: %s\n", i, argv[i]);
-    }
-
     if (argc >= 1 && argv[1]) {
         if (strcmp(argv[1], "generate") == 0) {
             sudoku = sudoku_ctor();
