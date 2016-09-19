@@ -36,16 +36,16 @@ int main (int argc, char *argv[]) {
     int empty;
     sudoku_t *sudoku;
 
-    if (argc >= 1 && argv[1]) {
-        if (strcmp(argv[1], "g") == 0 || strcmp(argv[1], "generate") == 0) {
+    if (argc >= 0 && argv[0]) {
+        if (strcmp(argv[0], "g") == 0 || strcmp(argv[0], "generate") == 0) {
             sudoku = sudoku_ctor();
 
             sudoku_generate(sudoku);
             sudoku_print_grid(sudoku);
             sudoku_dtor(sudoku);
-        } else if (strcmp(argv[1], "p") == 0 || strcmp(argv[1], "puzzle") == 0) {
+        } else if (strcmp(argv[0], "p") == 0 || strcmp(argv[0], "puzzle") == 0) {
             sudoku = sudoku_ctor();
-            empty = argc >= 2 && argv[2] ? strtol(argv[2], NULL, 10) : 54;
+            empty = argc >= 1 && argv[1] ? strtol(argv[1], NULL, 10) : 54;
 
             sudoku_puzzle(sudoku, empty);
             sudoku_print_puzzle(sudoku);
