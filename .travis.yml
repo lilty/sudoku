@@ -7,9 +7,7 @@ install:
 
 script:
   - sudoku
-  - sudoku -g
-  - sudoku -generate
-  - sudoku -p
-  - sudoku -puzzle
-  - sudoku -p 65
-  - sudoku -puzzle 2
+  - sudoku generate
+  - sudoku puzzle
+  - sudoku puzzle 65
+  - sudoku puzzle 2
