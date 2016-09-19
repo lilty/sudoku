@@ -1,7 +1,15 @@
+sudo: required
+
 language: c
 
 install:
-  - make && make install
+  - make && sudo make install
 
 script:
   - sudoku
+  - sudoku -g
+  - sudoku -generate
+  - sudoku -p
+  - sudoku -puzzle
+  - sudoku -p 65
+  - sudoku -puzzle 2
