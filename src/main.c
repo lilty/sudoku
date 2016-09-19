@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "sudoku.h"
+#include "../sudoku.h"
 
 void print_help() {
     printf(

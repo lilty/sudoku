@@ -21,7 +21,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
-#include "sudoku.h"
+#include "../sudoku.h"
 
 static void swap(int *a, int *b) {
     int t = *a;

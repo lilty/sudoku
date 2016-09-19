@@ -1,0 +1,7 @@
+language: c
+
+install:
+  - make && make install
+
+script:
+  - sudoku
