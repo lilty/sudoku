@@ -35,8 +35,7 @@ int main (int argc, char *argv[]) {
     sudoku_t *sudoku;
 
     sudoku = sudoku_ctor();
-    if (argc >= 1) {
-        printf(argv[1]);
+    if (argc >= 1 && argv[1]) {
         if (strcmp(argv[1], "g") == 0 || strcmp(argv[1], "generate") == 0) {
             sudoku_generate(sudoku);
             sudoku_print(sudoku);
