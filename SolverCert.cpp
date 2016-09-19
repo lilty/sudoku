@@ -4,3 +4,11 @@
 
 #include "SolverCert.h"
 
+class SolverCert{
+    int i,j;
+    int Sudoku[i][j];
+
+
+
+};
+
