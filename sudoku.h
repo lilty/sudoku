@@ -22,13 +22,8 @@
 #define SUDOKU_SUDOKU_H
 
 #include <stdlib.h>
-#include "dlx.h"
 
 #define SUDOKU_GRID_N 9
-#define NTYPES 4
-#define NCOLS (81 * NTYPES)
-#define NROWS (81 * SUDOKU_GRID_N)
-
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
@@ -46,19 +41,21 @@
   for (int i = 0; i < length; i++) { buffer[i] = start + i; }
 #define GET_AT(buffer, x, y) \
   *(buffer + ((y) * SUDOKU_GRID_N + (x)))
-#define EMPTY_INDEX(buffer, length) ({ int __ret = -1; \
-  for (int i = length/2; i >= 0; i--) { \
-      if (*(buffer + i) == 0) { \
-          __ret = i; \
-          break; \
-      } \
+#define EMPTY_INDEX(buffer, length, at) ({ int __ret = -1, i; \
+  for (i = at; i < length; i++) { \
+    if (*(buffer + i) == 0) { \
+      __ret = i; \
+      break; \
+    } \
   } \
-  for (int i = length/2; i < length; i++) { \
+  if (__ret == -1) \
+    for (i = at-1; i >= 0; i--) { \
       if (*(buffer + i) == 0) { \
-          __ret = i; \
-          break; \
+        __ret = i; \
+        break; \
       } \
-  }; __ret; })
+    } \
+  ;__ret; })
 #define IF_POSSIBLE_BEGIN(buffer, index, val) \
   int n = SUDOKU_GRID_N / 3; \
   int x = index % SUDOKU_GRID_N; \
@@ -80,21 +77,10 @@ next: \
       continue; \
   }
 
-typedef enum {
-  CELL_ID,
-  ROW_ID,
-  COL_ID,
-  REGION_ID
-} constraint_type;
-
 typedef struct _sudoku_t {
-    size_t length;
-    int *puzzle;
-    int *solution;
-    hnode root;
-    hnode headers[NCOLS];
-    int   ids[NCOLS];
-    node  nodes[NROWS][NTYPES];
+  size_t length;
+  int *puzzle;
+  int *solution;
 } sudoku_t;
 
 void sudoku_init(sudoku_t *sudoku);
@@ -102,8 +88,6 @@ int sudoku_dtor(sudoku_t *sudoku);
 int sudoku_generate(sudoku_t *sudoku);
 int sudoku_puzzle(sudoku_t *sudoku, int empty);
 int sudoku_solve(sudoku_t *sudoku);
-int sudoku_solve_conditions(sudoku_t *sudoku);
-int sudoku_solve_backtracking(sudoku_t *sudoku);
 void sudoku_print_solution(sudoku_t *sudoku);
 void sudoku_print_puzzle(sudoku_t *sudoku);
 

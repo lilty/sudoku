@@ -29,7 +29,7 @@ void print_help() {
     "\n"
     "sudoku - as a learning exercise.\n"
     "   puzzle:      generate and print a full 9*9 puzzle\n"
-    "   solve [...]: solve and print a full 9*9 puzzle\n"
+    "   solve <...>: solve and print a full 9*9 puzzle\n"
   );
 }
 
@@ -90,7 +90,6 @@ void do_solve(sudoku_t *sudoku) {
   sudoku_print_solution(sudoku);
   printf("Puzzle solved in: %f\n\n", (end - start) / (double) CLOCKS_PER_SEC);
 }
-
 
 /*
  * Local variables:
