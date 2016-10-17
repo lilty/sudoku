@@ -62,7 +62,7 @@ static int is_possible(int *buffer, int index, int value) {
   for (int i = 0; i < SUDOKU_GRID_N; i++) {
     if (GET_AT(buffer, i, y) == value ||
         GET_AT(buffer, x, i) == value ||
-        GET_AT(buffer, bx + (int) (i % n), by + (int) (i / n)) == value) {
+        GET_AT(buffer, bx + i % n, by + i / n) == value) {
       return 0;
     }
   }
@@ -83,7 +83,7 @@ static int candidates(int *grid, int index) {
   for (i = 0; i < SUDOKU_GRID_N; i++) {
     counts[GET_AT(grid, i, y)]++;
     counts[GET_AT(grid, x, i)]++;
-    counts[GET_AT(grid, boxX + (int) (i % boxN), boxY + (int) (i / boxN))]++;
+    counts[GET_AT(grid, boxX + i % boxN, boxY + i / boxN)]++;
   }
 
   for (i = 1; i <= SUDOKU_GRID_N; i++) {
