@@ -21,47 +21,76 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "../sudoku.h"
+#include <time.h>
+#include "sudoku.h"
 
 void print_help() {
-    printf(
-        "\n"
-        "sudoku - as a learning exercise.\n"
-        "   generate: generate and print a full 9*9 grid\n"
-        "   puzzle:   generate and print a full 9*9 puzzle\n"
-    );
+  printf(
+    "\n"
+    "sudoku - as a learning exercise.\n"
+    "   puzzle:      generate and print a full 9*9 puzzle\n"
+    "   solve [...]: solve and print a full 9*9 puzzle\n"
+  );
 }
+
+void do_puzzle(sudoku_t *sudoku, unsigned int empty);
+void do_solve(sudoku_t *sudoku);
 
 int main (int argc, char *argv[]) {
-    int empty;
-    sudoku_t *sudoku;
+  sudoku_t sudoku;
 
-    if (argc >= 1 && argv[1]) {
-        if (strcmp(argv[1], "generate") == 0) {
-            sudoku = sudoku_ctor();
-
-            sudoku_generate(sudoku);
-            sudoku_print_grid(sudoku);
-            sudoku_dtor(sudoku);
-        } else if (strcmp(argv[1], "puzzle") == 0) {
-            sudoku = sudoku_ctor();
-            empty = argc >= 2 && argv[2] ? strtol(argv[2], NULL, 10) : 54;
-
-            sudoku_puzzle(sudoku, empty);
-            sudoku_print_puzzle(sudoku);
-            sudoku_solve_backtracking(sudoku);
-            printf("\n");
-            sudoku_print_puzzle(sudoku);
-            sudoku_dtor(sudoku);
-        } else {
-            print_help();
-        }
-    } else {
+  if (argc >= 1 && argv[1]) {
+    if (strcmp(argv[1], "puzzle") == 0) {
+      sudoku_init(&sudoku);
+      do_puzzle(&sudoku, (unsigned int) (argc >= 2 && argv[2] ? strtol(argv[2], NULL, 10) : 54));
+      sudoku_dtor(&sudoku);
+    } else if (strcmp(argv[1], "solve") == 0) {
+      if (argc < 2) {
         print_help();
+        return EXIT_FAILURE;
+      }
+      sudoku_init(&sudoku);
+      const char *puzzle = argv[2];
+      int len = (int) strlen(puzzle);
+      for (int i = 0; i < len; i++) {
+        sudoku.puzzle[i] = puzzle[i] - '0';
+      }
+      do_solve(&sudoku);
+      sudoku_dtor(&sudoku);
+    } else {
+      print_help();
     }
+  } else {
+      print_help();
+  }
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
+
+void do_puzzle(sudoku_t *sudoku, unsigned int empty) {
+  int s;
+
+  printf("Generating puzzle with %d empty cases...\n", empty);
+  sudoku_puzzle(sudoku, empty);
+  sudoku_print_puzzle(sudoku);
+  puts("Would you like to solve it ? [Y/n]\n");
+  s = getchar();
+  if (s != 'n') {
+    do_solve(sudoku);
+  }
+}
+
+void do_solve(sudoku_t *sudoku) {
+  clock_t start, end;
+
+  puts("Solving...\n");
+  start = clock();
+  sudoku_solve(sudoku);
+  end = clock();
+  sudoku_print_solution(sudoku);
+  printf("Puzzle solved in: %f\n\n", (end - start) / (double) CLOCKS_PER_SEC);
+}
+
 
 /*
  * Local variables:
