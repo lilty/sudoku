@@ -1,7 +1,7 @@
 # sudoku
 As a learning exercise
 
-[![Build Status](https://travis-ci.org/lilty/sudoku.svg?branch=master)](https://travis-ci.org/lilty/sudoku)
+[![Build Status](https://travis-ci.org/uael/sudoku.svg?branch=master)](https://travis-ci.org/uael/sudoku)
 
 **sudoku binary**
 
