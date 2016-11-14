@@ -1489,11 +1489,13 @@ static int calculate(sudoku_t *sudoku, int limit, char *solution, int (*select)(
         continue;
       }
       ++n;
+      int digit, idx;
+
       if (solution && n == 1) {
-        for (int idx = 0; idx < 81; ++idx) {
+        for (idx = 0; idx < 81; ++idx) {
           int mask = tbl_board_block_mask[idx];
           int offset = tbl_board_block[idx];
-          for (int digit = 0; digit < 9; ++digit) {
+          for (digit = 0; digit < 9; ++digit) {
             if (sudoku->full_mask[offset] & mask) {
               solution[idx] = (char) ('1' + digit);
               break;
@@ -1516,8 +1518,9 @@ static int select_first(int mask) {
 
 extern int sudoku_solve_select(const char *puzzle, char *solution, int limit, int (*select)(int)) {
   sudoku_t sudoku;
+  int idx;
 
-  for (int idx = 0; idx < 81; ++idx) {
+  for (idx = 0; idx < 81; ++idx) {
     if (isdigit(puzzle[idx])) sudoku.board[idx] = (byte) puzzle[idx];
     else if (puzzle[idx] == '.') sudoku.board[idx] = '0';
     else return 0;
