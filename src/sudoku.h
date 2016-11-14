@@ -18,52 +18,44 @@
   +----------------------------------------------------------------------+
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
-#include "sudoku.h"
+#ifndef _SUDOKU_H
+#define _SUDOKU_H
 
-void print_help() {
-  printf(
-    "\n"
-    "sudoku - as a learning exercise.\n"
-    "   solve <...>: solve and print a full 9*9 puzzle\n"
-  );
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern int sudoku_solve_select(const char *puzzle, char *solution, int limit, int (*select)(int));
+extern int sudoku_solve(const char *puzzle, char *solution, int limit);
+
+typedef unsigned char byte;
+typedef int bool;
+#ifndef true
+#define false 0
+#define true 1
+#endif
+
+#define HIGH_9_BIT(v) (((v) >> 18) & 0x1FF)
+#define MID_9_BIT(v) (((v) >> 9) & 0x1FF)
+#define LOW_9_BIT(v) ((v) & 0x1FF)
+
+#define FULL_TO_COLUMN(v) (((v) | ((v) >> 9) | ((v) >> 18)) & 0x1FF)
+#define FULL_TO_SHRINK(v) (tbl_shrink_mask[(v)&0x1FF] | tbl_shrink_mask[((v)>>9)&0x1FF]<<3 | tbl_shrink_mask[((v)>>18)&0x1FF]<<6)
+
+#define BIT_SET_27 0x07FFFFFF
+#define BIT_SET_30 0x3FFFFFFF
+
+#define NORF(n) sudoku->full_mask[n] &= sudoku->block_mask_sum[n%3] ^ sudoku->block_mask[n];
+#define SAVF(n) sudoku->games[sudoku->index].full_mask[n] = sudoku->full_mask[n];
+#define RESF(n) sudoku->comp_f[n] = sudoku->full_mask[n] = sudoku->games[sudoku->index].full_mask[n];
+
+#define AN(v, n) v &= n
+
+#ifdef __cplusplus
 }
+#endif
 
-void do_solve(const char *puzzle);
-
-int main (int argc, char *argv[]) {
-  if (argc >= 1 && argv[1]) {
-    if (strcmp(argv[1], "solve") == 0) {
-      if (argc < 2) {
-        print_help();
-        return EXIT_FAILURE;
-      }
-      do_solve(argv[2]);
-    } else {
-      print_help();
-    }
-  } else {
-      print_help();
-  }
-
-  return EXIT_SUCCESS;
-}
-
-void do_solve(const char *puzzle) {
-  char solution[81];
-  clock_t start, end;
-
-  puts("Solving...");
-  puts(puzzle);
-  start = clock();
-  sudoku_solve(puzzle, solution, 2);
-  end = clock();
-  printf("Puzzle solved in: %f\n", (end - start) / (double) CLOCKS_PER_SEC);
-  puts(solution);
-}
+#endif /* _SUDOKU_H */
 
 /*
  * Local variables:
