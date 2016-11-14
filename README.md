@@ -12,7 +12,7 @@ $ make && sudo make install
 **Python extension**
 
 ```bash
-$ sudo python setup.py install
+$ python setup.py build_ext --inplace --user
 ```
 
 **Python usage**

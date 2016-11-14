@@ -6,7 +6,7 @@ import time
 try:
   from sudoku import solve
 except ImportError:
-  os.system("python setup.py build_ext --inplace")
+  os.system("python setup.py build_ext --inplace --user")
   from sudoku import solve
 
 nb_methodes=1

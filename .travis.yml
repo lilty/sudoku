@@ -1,11 +1,16 @@
-sudo: required
+sudo: false
 
 language: c
 
 install:
-  - make && sudo make install
+  - make
+  - python setup.py build_ext --inplace --user
 
 script:
-  - sudoku
-  - sudoku solve 800000000003600000070090200050007000000045700000100030001000068008500010090000400
-  - sudoku solve 000000000000003085001020000000507000004000100090000000500000073002010000000040009
+  - ./bin/sudoku
+  - ./bin/sudoku solve 800000000003600000070090200050007000000045700000100030001000068008500010090000400
+  - ./bin/sudoku solve 000000000000003085001020000000507000004000100090000000500000073002010000000040009
+  - python sudoku.py easy.txt
+  - python sudoku.py -h easy.txt
+  - python sudoku.py hardest.txt
+  - python sudoku.py -h hardest.txt
